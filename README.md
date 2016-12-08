@@ -2,15 +2,15 @@
 iplc_sim final project for Computer Organization
 
 Who did what (Write what you did under your name once it's done):
-Lorelei:
+- Lorelei:
   - Implemented jump, syscall, and nop. For each, I pushed a new instruction onto the pipeline
     and set its type to be the appropriate type. Additionally, for jump, I set the jump address
     to the address given in the function.
-Mary:
+- Mary:
   - I implemented the iplc_sim_LRU_replace_on_miss function. I replaced the last recently
     used cache slot and then moved that so it was the Most Recently Used entry, and then
     percolated it up.
-Tim:
+- Tim:
   -
-Will:
+- Will:
   -
