@@ -13,4 +13,4 @@ Who did what (Write what you did under your name once it's done):
 - Tim:
   -
 - Will:
-  -Implemented the store word, load word, and branch instruction type functions. Structs with member variables for each instruction were provided, so I just pushed another instruction to the pipeline and inserted the correct values into the member variables.
+  -Implemented the store word, load word, and branch instruction type functions. Structs with member variables for each instruction were provided, so I just pushed another instruction to the pipeline and inserted the correct values into the member variables. Then implemented step 2 of the iplc_sim_push_pipeline_stage, handling the branch prediction whether it be correct or incorrect and pushing the data to the next stage if necesssary.
