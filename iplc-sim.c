@@ -372,17 +372,25 @@ void iplc_sim_process_pipeline_branch(int reg1, int reg2)
 
 void iplc_sim_process_pipeline_jump(char *instruction)
 {
-    /* You must implement this function */
+    iplc_sim_push_pipeline_stage();
+    pipeline[FETCH].itype = JUMP;
+    pipeline[FETCH].instruction_address = instruction_address;
+    strcpy( pipeline[fetch].stage.jump.instruction, instruction );
 }
 
 void iplc_sim_process_pipeline_syscall()
 {
-    /* You must implement this function */
+    iplc_sim_push_pipeline_stage();
+    pipeline[FETCH].itype = SYSCALL;
+    pipeline[FETCH].instruction_address = instruction_address;
 }
 
 void iplc_sim_process_pipeline_nop()
 {
-    /* You must implement this function */
+    iplc_sim_push_pipeline_stage();
+    pipeline[FETCH].itype = NOP;
+    pipeline[FETCH].instruction_address = instruction_address;
+    
 }
 
 /************************************************************************************************/
