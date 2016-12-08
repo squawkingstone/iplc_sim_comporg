@@ -13,4 +13,4 @@ Who did what (Write what you did under your name once it's done):
 - Tim:
   -
 - Will:
-  -
+  -Implemented the store word, load word, and branch functions. Structs with member variables for each instruction were provided, so I just pushed another instruction to the pipeline and inserted the correct values into the member variables.
