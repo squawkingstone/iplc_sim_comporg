@@ -195,8 +195,14 @@ void iplc_sim_LRU_replace_on_miss(int index, int tag)
     int i=0, j=0;
     
     /* Note: item 0 is the least recently used cache slot -- so replace it */
+    cache[index].assoc[cache[index].replacement[0]].tag = tag;
     
     /* percolate everything up */
+    int temp = cache[index].replacement[0];
+    for (i = 0; i < cache_assoc-2; i++) {
+        cache[index].replacement[i] = cache[index].replacement[i+1];
+    }
+    cache[index].replacement[cache_assoc-1] = temp;
 }
 
 /*
@@ -231,6 +237,21 @@ int iplc_sim_trap_address(unsigned int address)
     int tag=0;
     int hit=0;
     
+    int mask = (1 << cache_index) -1;
+    index = address >> cache_blockoffsetbits & mask;//get our index
+    tag = address >> (cache_index + cache_blockoffsetbits);//get our tag
+    
+    for(i=0; i <cache_assoc; i++){
+        if(cache[index].assoc[i].tag == tag){//hit
+            hit=1;
+            iplc_sim_LRU_update_on_hit(index, i);
+            break;//hit so we good
+        }
+    }
+    
+    if(hit == 0){//missed
+        iplc_sim_LRU_replace_on_miss(index, tag);
+    }
     /* expects you to return 1 for hit, 0 for miss */
     return hit;
 }
