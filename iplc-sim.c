@@ -460,7 +460,7 @@ void iplc_sim_process_pipeline_lw(int dest_reg, int base_reg, unsigned int data_
     //need to set the values of the struct members within load_word (data_address, dest_reg base_reg)
     pipeline[FETCH].stage.lw.dest_reg = dest_reg; // store the destination register
     pipeline[FETCH].stage.lw.base_reg = base_reg; // store the base register
-    pipeline[FETCH].stage.lw.data_address = data_address;} //store data_address
+    pipeline[FETCH].stage.lw.data_address = data_address; //store data_address
 }
 
 void iplc_sim_process_pipeline_sw(int src_reg, int base_reg, unsigned int data_address)
