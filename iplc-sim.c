@@ -336,9 +336,54 @@ void iplc_sim_push_pipeline_stage()
     }
     
     /* 2. Check for BRANCH and correct/incorrect Branch Prediction */
-    if (pipeline[DECODE].itype == BRANCH) {
-        int branch_taken = 0;
-    }
+     if (pipeline[DECODE].itype == BRANCH) {
+        int branch_taken = 0; //initialize the branch_taken variable... 0 means no
+
+        //We want to record that the branch was taken
+        branch_count += 1; //unsigned int that keeps track of the number of times a branch is taken... (initalized line 70)
+
+
+        // initialize the fetch and decode instruction addresse variables so we may compare later
+        double fetch_instruction_address; //long variable names, but for clarity's sake so everyone knows what they are
+        double decode_instruction_address;
+
+        fetch_instruction_address = pipeline[FETCH].instruction_address; //store these addresses in our variables
+        decode_instruction_address = pipeline[DECODE].instruction_address;
+
+        //We need to compare the addresses to tell if the branch was aleady predicted/taken
+        //if the two addresses are more than a word apart (4 bits), then we're going to assume the branch WAS taken
+
+        double address_difference = (fetch_instruction_address - decode_instruction_address); //find the difference
+        if (fabs(address_difference) > 4){ // the absolute value of the difference
+            branch_taken = 1; //The branch was taken
+        }
+        else
+            branch_taken = 0; //The branch was not taken
+
+        //If the CPU predicted the branch, record it
+        if (branch_taken == branch_predict_taken){ 
+            correct_branch_predictions +=1; //tallying the total number of correct predictions
+            //if this happnes, we're done here
+        }
+
+        else{
+            //if the branch was not predicted
+            int pipeline_size; //initialize and record a variable to capture the size of the pipeline
+            pipeline_size = sizeof(pipeline_t);
+
+            //Copy the data and push it to the next stage
+            memcpy(&pipeline[WRITEBACK], &pipeline[MEM], pipeline_size); //copy pipeline_size bits from pipline[MEM] to pipleline[WRITEBACK]
+            memcpy(&pipeline[MEM], &pipeline[ALU], pipeline_size); //copy from the ALU to MEM
+            memcpy(&pipeline[ALU], &pipeline[DECODE], pipeline_size); //copy from DECODE to ALU
+
+            //Now reset decode
+            memset(&(pipeline[DECODE]), 0, pipeline_size);
+            pipeline_cycles += 1; //another pipeline cylce in the books
+
+            //Now just increase the instuction count by 1
+            instruction_count += 1;
+        } //end else statement (if the branch wasn't predicted)
+    } //end STEP 2 (Check for BRANCH and correct/incorrect Branch Prediction)
     
     /* 3. Check for LW delays due to use in ALU stage and if data hit/miss
      *    add delay cycles if needed.
