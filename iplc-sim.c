@@ -378,17 +378,69 @@ void iplc_sim_process_pipeline_rtype(char *instruction, int dest_reg, int reg1, 
 
 void iplc_sim_process_pipeline_lw(int dest_reg, int base_reg, unsigned int data_address)
 {
-    /* You must implement this function */
+   /* You must implement this function */
+    iplc_sim_push_pipeline_stage();
+    //This code just follows the template outlined for rtype
+    pipeline[FETCH].itype = LW; //the instruction for the fetch stage is LW
+    pipeline[FETCH].instruction_address = instruction_address; //set the instruction address
+
+//The struct for load_word is defined here (line 87)
+/*
+    typedef struct load_word {
+    unsigned int data_address;
+    int dest_reg;
+    int base_reg;
+    } lw_t;
+*/
+    //need to set the values of the struct members within load_word (data_address, dest_reg base_reg)
+    pipeline[FETCH].stage.lw.dest_reg = dest_reg; // store the destination register
+    pipeline[FETCH].stage.lw.base_reg = base_reg; // store the base register
+    pipeline[FETCH].stage.lw.data_address = data_address;} //store data_address
 }
 
 void iplc_sim_process_pipeline_sw(int src_reg, int base_reg, unsigned int data_address)
 {
     /* You must implement this function */
+    iplc_sim_push_pipeline_stage();
+
+    pipeline[FETCH].itype = SW; //set the instruction type to sw
+    pipeline[FETCH].instruction_address = instruction_address;
+
+//The struct for store word has members data_address, src_reg, and base_reg (line 95)
+/*
+    typedef struct store_word
+    {
+    unsigned int data_address;
+    int src_reg;
+    int base_reg;
+    } sw_t;
+*/
+    //insert the values into the right places
+    pipeline[FETCH].stage.sw.src_reg = src_reg; //source register
+
+    pipeline[FETCH].stage.sw.base_reg = base_reg; //base register
+    pipeline[FETCH].stage.sw.data_address = data_address; //data address
 }
 
 void iplc_sim_process_pipeline_branch(int reg1, int reg2)
 {
     /* You must implement this function */
+    iplc_sim_push_pipeline_stage();
+
+    pipeline[FETCH].itype = BRANCH; //the instruction type is branch
+    pipeline[FETCH].instruction_address = instruction_address;
+/*
+    typedef struct branch
+    {
+    int reg1;
+    int reg2;
+    
+    } branch_t;
+*/
+    //The only two member variables that need to be set are register 1 and register 2
+
+    pipeline[FETCH].stage.branch.reg1 = reg1; // register 1
+    pipeline[FETCH].stage.branch.reg2 = reg2; //register 2
 }
 
 void iplc_sim_process_pipeline_jump(char *instruction)
