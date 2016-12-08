@@ -394,10 +394,30 @@ void iplc_sim_push_pipeline_stage()
     
     /* 4. Check for SW mem acess and data miss .. add delay cycles if needed */
     if (pipeline[MEM].itype == SW) {
-    }
+
+        //We just have to see if we have a data hit, and if not, add delay cycles
+        //we're going to assign a value to data_hit (1 for hit, 0 for miss)
+        data_hit = iplc_sim_trap_address(pipeline[MEM].stage.sw.data_address);
+        //use trap address to see if the address is in our cache
+
+        if(data_hit == 0){ // if the address is not in our cache...
+            //add the delay cycles
+            pipeline_cycles = (pipeline_cycles + (CACHE_MISS_DELAY-1));
+        } //end if statement (miss)
+    }//end SW 
     
     /* 5. Increment pipe_cycles 1 cycle for normal processing */
+    pipeline_cycles += 1;
     /* 6. push stages thru MEM->WB, ALU->MEM, DECODE->ALU, FETCH->ALU */
+    int pipeline_size; //initialize and record a variable to capture the size of the pipeline
+    pipeline_size = sizeof(pipeline_t); 
+
+    for(i = MAX_STAGES-1; i != FETCH; i--){
+        //We just need to push everything to the next stage
+        //So we're gonna loop through the number of stages and copy the pipelines
+        memcpy(&pipeline[i], &pipeline[i-1], pipeline_size);
+        //memcpy just copies pipeline[i-1] into pipeline[i]
+    }
     
     // 7. This is a give'me -- Reset the FETCH stage to NOP via bezero */
     bzero(&(pipeline[FETCH]), sizeof(pipeline_t));
