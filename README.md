@@ -7,7 +7,7 @@ Lorelei:
     and set its type to be the appropriate type. Additionally, for jump, I set the jump address
     to the address given in the function.
 Mary:
-    I implemented the iplc_sim_LRU_replace_on_miss function. I replaced the last recently
+  - I implemented the iplc_sim_LRU_replace_on_miss function. I replaced the last recently
     used cache slot and then moved that so it was the Most Recently Used entry, and then
     percolated it up.
 Tim:
