@@ -24,7 +24,7 @@ int iplc_sim_trap_address(unsigned int address); // Tim
 // Pipeline functions
 unsigned int iplc_sim_parse_reg(char *reg_str);
 void iplc_sim_parse_instruction(char *buffer);
-void iplc_sim_push_pipeline_stage(); // Tim and Mary
+void iplc_sim_push_pipeline_stage(); // Tim and Will
 void iplc_sim_process_pipeline_rtype(char *instruction, int dest_reg,
                                      int reg1, int reg2_or_constant);
 void iplc_sim_process_pipeline_lw(int dest_reg, int base_reg, unsigned int data_address); // Will
