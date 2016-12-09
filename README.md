@@ -7,9 +7,7 @@ Who did what (Write what you did under your name once it's done):
     and set its type to be the appropriate type. Additionally, for jump, I set the jump address
     to the address given in the function.
 - Mary:
-  - I implemented the iplc_sim_LRU_replace_on_miss function. I replaced the last recently
-    used cache slot and then moved that so it was the Most Recently Used entry, and then
-    percolated it up.
+  - I implemented the iplc_sim_LRU_replace_on_miss function. I replaced the last recently used cache slot and then moved that so it was the Most Recently Used entry, and then percolated it up.
 - Tim:
   -iplc_sim_trap_address - Get the index and tag we are looking for, then go through our cache and see if any of our indices match our tag. If so, run update on hit (since we hit). If not, run replace on miss (since we missed). Return hit (0 or 1) at the end.
   -Step 3: See if we've hit. If we miss, add our delay. If it's an R-type, write to the writeback register and clear the main register
