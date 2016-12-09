@@ -192,7 +192,7 @@ void iplc_sim_init(int index, int blocksize, int assoc)
  */
 void iplc_sim_LRU_replace_on_miss(int index, int tag)
 {
-    int i=0
+    int i=0;
     //j=0;
     
     /* Note: item 0 is the least recently used cache slot -- so replace it */
