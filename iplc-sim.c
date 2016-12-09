@@ -391,6 +391,22 @@ void iplc_sim_push_pipeline_stage()
      */
     if (pipeline[MEM].itype == LW) {
         int inserted_nop = 0;
+        //check for hit/miss
+        int hit = iplc_sim_trap_address(pipeline[MEM].stage.lw.data_address);
+        //if missed, add delay cycles
+        if(hit == 0){
+            inserted_nop = CACHE_MISS_DELAY;
+            pipeline_cycles += inserted_nop;
+        }
+
+        //see if our alu is an rtype
+        //if it is, we need to move some register stuff around
+        if (pipeline[ALU].itype == RTYPE){
+                memcpy(&pipeline[WRITEBACK], &pipeline[MEM], sizeof(pipeline_t));//copy our current register to the writeback
+                memset(&pipeline[MEM],0,sizeof(pipeline_t));//clear the register
+                pipeline_cycles += hit;//add a cycle if we've hit
+                instruction_count++; //we did a thing, increment number of things done
+        }
     }
     
     /* 4. Check for SW mem acess and data miss .. add delay cycles if needed */
