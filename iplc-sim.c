@@ -196,6 +196,7 @@ void iplc_sim_LRU_replace_on_miss(int index, int tag)
     
     /* Note: item 0 is the least recently used cache slot -- so replace it */
     cache[index].assoc[cache[index].replacement[0]].tag = tag;
+    cache[index].assoc[cache[index].replacement[0]].vb = 1;
     
     /* percolate everything up */
     int temp = cache[index].replacement[0];
