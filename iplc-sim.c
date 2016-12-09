@@ -205,6 +205,9 @@ void iplc_sim_LRU_replace_on_miss(int index, int tag)
         cache[index].replacement[i] = cache[index].replacement[i+1];
     }
     cache[index].replacement[cache_assoc-1] = temp;
+    
+    cache_miss++;
+    cache_access++;
 }
 
 /*
@@ -225,6 +228,9 @@ void iplc_sim_LRU_update_on_hit(int index, int assoc)
     }
     
     cache[index].replacement[cache_assoc-1] = assoc;
+    
+    cache_hit++;
+    cache_access++;
 }
 
 /*
