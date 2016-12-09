@@ -195,16 +195,16 @@ void iplc_sim_LRU_replace_on_miss(int index, int tag)
     int i=0;
     //j=0;
     
-    /* Note: item 0 is the least recently used cache slot -- so replace it */
-    cache[index].assoc[cache[index].replacement[0]].tag = tag;
-    cache[index].assoc[cache[index].replacement[0]].vb = 1;
-    
-    /* percolate everything up */
-    int temp = cache[index].replacement[0];
-    for (i = 0; i < cache_assoc-2; i++) {
+    /* percolate everything up first */
+    for(i = 0; i < cache_assoc-1; i++){
+        cache[index].assoc[i] = cache[index].assoc[i+1];
         cache[index].replacement[i] = cache[index].replacement[i+1];
     }
-    cache[index].replacement[cache_assoc-1] = temp;
+    
+    //the last index is the MRU entry, so it's replaced
+    cache[index].assoc[cache_assoc-1].tag = tag;
+    cache[index].assoc[cache_assoc-1].vb = 1;
+    cache[index].replacement[cache_assoc-1] = 0;
     
     cache_miss++;
     cache_access++;
